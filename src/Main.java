@@ -20,6 +20,9 @@ class Ttt{
         bot[3] = " 3\t\t";
 
     }
+    public boolean add(String place,String X_or_O){
+        row = place.substring.(0,1)
+    }
 
 
     @Override
