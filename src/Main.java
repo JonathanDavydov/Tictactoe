@@ -3,49 +3,46 @@
 //idea use dictionary instead of a matrix w dictionary you can give a name to all 9 points and check if "tr & mr & br" are equall
 
 class Ttt{
-    private String [] top = new String[4];
-    private String [] topm = new String[4];
-    private String [] botm = new String[4];
-    private String [] bot = new String[4];
-    private String[][] grid = new String[][]{top,topm,botm,bot};
+    private String [] top = new String[3];
+    private String [] mid = new String[3];
+    private String [] bot = new String[3];
+    private String[][] grid = new String[][]{top,mid,bot};
     static int filled_spcs =0;
 
     public Ttt(){
+        /*
         top[0] = "A\t";
-        topm[0] = "B\t";
-        botm[0] = "C\t";
+        mid[0] = "B\t";
+        bot[0] = "C\t";
 
         bot[0] = "\t";
         bot[1]=" 1\t\t";
         bot[2]=" 2\t\t";
         bot[3] = " 3\t\t";
-
+*/
     }
 
     public boolean add(String place,String X_or_O) {
         String vertical = place.substring(0, 1).toUpperCase();   // vert = each row/a
         String horizontal = place.substring(1, 2); // hori = each column/1
+        int column = Integer.parseInt(horizontal);
+        int row;
+        // place should look like a1,a2,a3,b1,b2 ect..
 
-
-        for (int i = 1; i < 3; i++) {
-            if (bot[i].trim().equals(horizontal)){
-                //System.out.println("is equal "+ i+" ");
-                for (int j = 0; j < 3; j++) {
-
-                   // Object t = grid[j][0];
-                  //  System.out.println(t);
-                    if (grid[j][0].trim().equals(vertical)) {
-                        //System.out.println("is equal "+ j+" ");
-                        grid[j][i] = X_or_O;
-                        System.out.println(grid[j][i]);
-                        break;
-                    }
-                }
-
-            }
-
+        if (vertical == "A"){
+            row =0 ;
+        } else if (vertical == "B") {
+            row = 1;
+        } else if (vertical == "C") {
+            row =2;
         }
-       return true;
+        else{
+            return false;
+        }
+
+        grid[row][column] = X_or_O;
+        
+        return true;
 
     }
 
@@ -54,8 +51,8 @@ class Ttt{
     @Override
     public String toString() {
         String big = "";
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
+        for (int i = 0; i <3; i++) {
+            for (int j = 0; j < 3; j++) {
                 if (!(grid[i][j] == null))
                     big += ""+grid[i][j]+" ";
                 else
