@@ -6,6 +6,8 @@ class Ttt{
     private String [] top = new String[3];
     private String [] mid = new String[3];
     private String [] bot = new String[3];
+    private String [] pDia = new String[3]; // the point of these is so that i can avoid checking by going [1],[1] , [2],[2]
+    private String [] nDia = new String[3];
     private String[][] grid = new String[][]{top,mid,bot};
     static int filled_spcs =0;
 
@@ -50,19 +52,24 @@ class Ttt{
 
     @Override
     public String toString() {
-        String big = "";
-        for (int i = 0; i <3; i++) {
+        String ttt_str = ""; //this will put all the strings together
+        String [] abc = {"a","b","c"};
+
+        for (int i = 0; i < 3 ; i++) {
+            ttt_str += abc[i] + "\t";
             for (int j = 0; j < 3; j++) {
-                if (!(grid[i][j] == null))
-                    big += ""+grid[i][j]+" ";
+                if ((grid[i][j] != null))
+                    ttt_str += ""+grid[i][j]+" ";
                 else
-                    big += "null\t ";
+                    ttt_str += "null\t ";
 
             }
-            big += "\n";
-
+            ttt_str += "\n";
         }
-        return big;
+
+        String nums = "\t1\t\t 2\t\t 3 \n" ;
+        ttt_str = nums+ttt_str;
+        return ttt_str;
 
     }
 }
