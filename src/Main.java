@@ -1,4 +1,4 @@
- import java.util.*;
+import java.util.*;
 
 //idea use dictionary instead of a matrix w dictionary you can give a name to all 9 points and check if "tr & mr & br" are equall
 
@@ -25,25 +25,25 @@ class Ttt{
     }
 
     public boolean add(String place,String X_or_O) {
-        String vertical = place.substring(0, 1).toUpperCase();   // vert = each row/a
+        place = place.toUpperCase();
+        String vertical = place.substring(0, 1);   // vert = each row/a
         String horizontal = place.substring(1, 2); // hori = each column/1
-        int column = Integer.parseInt(horizontal);
+        int column = Integer.parseInt(horizontal)-1;
         int row;
         // place should look like a1,a2,a3,b1,b2 ect..
 
-        if (vertical == "A"){
+        if (vertical.equals("A")){
             row =0 ;
-        } else if (vertical == "B") {
+        } else if (vertical.equals("B")) {
             row = 1;
-        } else if (vertical == "C") {
+        } else if (vertical.equals("C")) {
             row =2;
         }
         else{
             return false;
         }
 
-        grid[row][column] = X_or_O;
-        
+        grid[row][column] = X_or_O+"\t\t";
         return true;
 
     }
@@ -77,13 +77,32 @@ class Ttt{
 
 public class Main {
     public static void main(String[] args) {
-
+        Scanner scanner = new Scanner(System.in);
         Ttt x = new Ttt();
+
+        boolean continue_check = true;
+        String place;
+        String x_or_o;
+
+
         System.out.println(x.toString());;
 
-        x.add("a1","x");
-        System.out.println(x.toString());;
+        while(true){
+            System.out.println("Do you want to continue?");
+            if (scanner.nextBoolean() == false){
+                break;
+            }
+            scanner.nextLine();
 
+            System.out.println("Where");
+            place = scanner.next();
+            System.out.println("what");
+            x_or_o = scanner.next();
+
+
+            x.add(place,x_or_o);
+            System.out.println(x.toString());
+        }
 
     }
 }
