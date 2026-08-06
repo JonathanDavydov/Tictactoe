@@ -3,25 +3,27 @@ import java.util.*;
 //idea use dictionary instead of a matrix w dictionary you can give a name to all 9 points and check if "tr & mr & br" are equall
 
 class Ttt{
-    private String [] top = new String[3];
-    private String [] mid = new String[3];
-    private String [] bot = new String[3];
-    private String [] pDia = new String[3]; // the point of these is so that i can avoid checking by going [1],[1] , [2],[2]
-    private String [] nDia = new String[3];
-    private String[][] grid = new String[][]{top,mid,bot};
-    static int filled_spcs =0;
+    //Notes: orignally did regualr java list but since it is not collection i cant turn it into a set.
+    // i want it too be a set because set's can remove duplicates
+    private ArrayList<String> top = new ArrayList<>(3);
+    private ArrayList<String> bot = new ArrayList<>(3);
+    private ArrayList<String> pDia = new ArrayList<>(3);
+    private ArrayList<String> nDia = new ArrayList<>(3);
+    private ArrayList<String> mid = new ArrayList<>(3);
+    private ArrayList<ArrayList<String>> grid = new ArrayList<>(3);
+    static int filled_spcs =0; //idk why i have this
 
     public Ttt(){
-        /*
-        top[0] = "A\t";
-        mid[0] = "B\t";
-        bot[0] = "C\t";
+        for (int i = 0; i < 3; i++) {
+            top.add("Null\t");
+            mid.add("Null\t");
+            bot.add("Null\t");
+        }
 
-        bot[0] = "\t";
-        bot[1]=" 1\t\t";
-        bot[2]=" 2\t\t";
-        bot[3] = " 3\t\t";
-*/
+        grid.add(top);
+        grid.add(mid);
+        grid.add(bot);
+
     }
 
     public boolean add(String place,String X_or_O) {
@@ -42,24 +44,25 @@ class Ttt{
         else{
             return false;
         }
+        //grid[row][column] = X_or_O+"\t\t";
+        grid.get(row).set(column,X_or_O+"\t\t");
 
-        grid[row][column] = X_or_O+"\t\t";
         return true;
 
     }
 
-
-
     @Override
     public String toString() {
+        //if ((grid[i][j] != null)) line 55
         String ttt_str = ""; //this will put all the strings together
         String [] abc = {"a","b","c"};
 
         for (int i = 0; i < 3 ; i++) {
             ttt_str += abc[i] + "\t";
             for (int j = 0; j < 3; j++) {
-                if ((grid[i][j] != null))
-                    ttt_str += ""+grid[i][j]+" ";
+
+                if (grid.get(i).get(j) != null)
+                    ttt_str += ""+grid.get(i).get(j)+" ";
                 else
                     ttt_str += "null\t ";
 
@@ -67,13 +70,18 @@ class Ttt{
             ttt_str += "\n";
         }
 
-        String nums = "\t1\t\t 2\t\t 3 \n" ;
+        String nums = "\t1\t\t 2\t\t 3 \n" ; //add's top row of numbers
         ttt_str = nums+ttt_str;
         return ttt_str;
 
     }
-}
+    public boolean check(String x_or_o){
+        //horizontal checks
+        Set<String> tops = new HashSet<>(top);
 
+        return false;
+    }
+}
 
 public class Main {
     public static void main(String[] args) {
