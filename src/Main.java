@@ -83,7 +83,8 @@ class Ttt{
         return ttt_str;
 
     }
-    public boolean check(String x_or_o){
+
+    public boolean check(){
         //horizontal checks
         Set<String> tops = new HashSet<>(top);
         Set<String> mids = new HashSet<>(mid);
