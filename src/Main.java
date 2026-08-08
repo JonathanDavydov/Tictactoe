@@ -91,7 +91,7 @@ class Ttt{
         Set<String> bots = new HashSet<>(bot);
         Set<String> pDias = new HashSet<>(pDia);
         Set<String> nDias = new HashSet<>(nDia);
-        //if any of the above have a duplicate that means taht they are false
+        //if any of the above have a duplicate that means that they are false
 
         if ((tops.size() < 2) || (mids.size() < 2) || (bots.size() < 2) || (pDias.size() < 2) || (nDias.size() < 2)){
             return true;
@@ -99,32 +99,40 @@ class Ttt{
 
         return false;
     }
+
+
 }
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Ttt x = new Ttt();
-
-        boolean continue_check = true;
         String place;
-        String x_or_o;
+        String x_or_o = "X";
 
 
         System.out.println(x.toString());;
 
         while(true){
-            System.out.println("Do you want to continue?");
-            if (scanner.nextBoolean() == false){
+            if (!x.check()){
+                System.out.println("blank Win!!");
                 break;
             }
-            scanner.nextLine();
 
-            System.out.println("Where");
+//            System.out.println("Do you want to continue?");
+//            if (scanner.nextBoolean() == false){
+//                break;
+//            }
+//            scanner.nextLine(); // gets rid of the space after the bool
+
+            System.out.println("where does "+x_or_o+" go? ");
             place = scanner.next();
-            System.out.println("what");
-            x_or_o = scanner.next();
 
+
+            if (x_or_o == "X")
+                x_or_o = "O";
+            else
+                x_or_o= "X";
 
             x.add(place,x_or_o);
             System.out.println(x.toString());
