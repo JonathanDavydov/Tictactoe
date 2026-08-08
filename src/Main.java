@@ -15,6 +15,7 @@ class Ttt{
 
     public Ttt(){
         for (int i = 0; i < 3; i++) {
+            //gives all of the lists something to add too for toString()
             top.add("Null\t");
             mid.add("Null\t");
             bot.add("Null\t");
@@ -45,8 +46,15 @@ class Ttt{
             return false;
         }
         //grid[row][column] = X_or_O+"\t\t";
-        grid.get(row).set(column,X_or_O+"\t\t");
 
+        grid.get(row).set(column,X_or_O+"\t\t");
+        nDia.set(0,bot.get(0));
+        pDia.set(1,mid.get(1));
+        pDia.set(2,top.get(2));
+
+        nDia.set(0,top.get(0));
+        nDia.set(1,mid.get(1));
+        nDia.set(2,top.get(2));
         return true;
 
     }
@@ -78,6 +86,15 @@ class Ttt{
     public boolean check(String x_or_o){
         //horizontal checks
         Set<String> tops = new HashSet<>(top);
+        Set<String> mids = new HashSet<>(mid);
+        Set<String> bots = new HashSet<>(bot);
+        Set<String> pDias = new HashSet<>(pDia);
+        Set<String> nDias = new HashSet<>(nDia);
+        //if any of the above have a duplicate that means taht they are false
+
+        if ((tops.size() < 2) || (mids.size() < 2) || (bots.size() < 2) || (pDias.size() < 2) || (nDias.size() < 2)){
+            return true;
+        }
 
         return false;
     }
