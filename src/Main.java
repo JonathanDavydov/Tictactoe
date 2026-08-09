@@ -19,6 +19,8 @@ class Ttt{
             top.add("Null\t");
             mid.add("Null\t");
             bot.add("Null\t");
+            pDia.add("Null\t");
+            nDia.add("Null\t");
         }
 
         grid.add(top);
@@ -27,7 +29,7 @@ class Ttt{
 
     }
 
-    public boolean add(String place,String X_or_O) {
+    public boolean add(String place,String x_or_o) {
         place = place.toUpperCase();
         String vertical = place.substring(0, 1);   // vert = each row/a
         String horizontal = place.substring(1, 2); // hori = each column/1
@@ -47,12 +49,12 @@ class Ttt{
         }
         //grid[row][column] = X_or_O+"\t\t";
 
-        grid.get(row).set(column,X_or_O+"\t\t");
-        nDia.set(0,bot.get(0));
+        grid.get(row).set(column,x_or_o+"\t\t");
+        pDia.set(0,bot.get(0));
         pDia.set(1,mid.get(1));
         pDia.set(2,top.get(2));
 
-        nDia.set(0,top.get(0));
+        nDia.set(0,bot.get(0));
         nDia.set(1,mid.get(1));
         nDia.set(2,top.get(2));
         return true;
@@ -84,7 +86,7 @@ class Ttt{
 
     }
 
-    public boolean check(){
+    public boolean check(String x_or_o){
         //horizontal checks
         Set<String> tops = new HashSet<>(top);
         Set<String> mids = new HashSet<>(mid);
@@ -93,7 +95,13 @@ class Ttt{
         Set<String> nDias = new HashSet<>(nDia);
         //if any of the above have a duplicate that means that they are false
 
-        if ((tops.size() < 2) || (mids.size() < 2) || (bots.size() < 2) || (pDias.size() < 2) || (nDias.size() < 2)){
+
+        // i need to check vertically and i need check if the symbol exists
+        boolean horizontal_checks = (tops.size() < 2 && tops.contains(x_or_o)) || (mids.size() < 2 && mids.contains(x_or_o)) || (bots.size() < 2 && bots.contains(x_or_o));
+        boolean dia_checks =(pDias.size() < 2 && pDias.contains(x_or_o)) || (nDias.size() < 2 && nDias.contains(x_or_o));
+
+
+        if (horizontal_checks || dia_checks){
             return true;
         }
 
@@ -114,7 +122,7 @@ public class Main {
         System.out.println(x.toString());;
 
         while(true){
-            if (!x.check()){
+            if (x.check(x_or_o)){
                 System.out.println("blank Win!!");
                 break;
             }
@@ -129,13 +137,14 @@ public class Main {
             place = scanner.next();
 
 
+
+            x.add(place,x_or_o);
+            System.out.println(x.toString());
+
             if (x_or_o == "X")
                 x_or_o = "O";
             else
                 x_or_o= "X";
-
-            x.add(place,x_or_o);
-            System.out.println(x.toString());
         }
 
     }
