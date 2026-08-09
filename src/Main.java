@@ -16,11 +16,11 @@ class Ttt{
     public Ttt(){
         for (int i = 0; i < 3; i++) {
             //gives all of the lists something to add too for toString()
-            top.add("Null\t");
-            mid.add("Null\t");
-            bot.add("Null\t");
-            pDia.add("Null\t");
-            nDia.add("Null\t");
+            top.add("empty\t");
+            mid.add("empty\t");
+            bot.add("empty\t");
+            pDia.add("empty\t");
+            nDia.add("empty\t");
         }
 
         grid.add(top);
@@ -88,6 +88,7 @@ class Ttt{
 
     public boolean check(String x_or_o){
         //horizontal checks
+        x_or_o=x_or_o+"\t\t";
         Set<String> tops = new HashSet<>(top);
         Set<String> mids = new HashSet<>(mid);
         Set<String> bots = new HashSet<>(bot);
@@ -122,17 +123,6 @@ public class Main {
         System.out.println(x.toString());;
 
         while(true){
-            if (x.check(x_or_o)){
-                System.out.println("blank Win!!");
-                break;
-            }
-
-//            System.out.println("Do you want to continue?");
-//            if (scanner.nextBoolean() == false){
-//                break;
-//            }
-//            scanner.nextLine(); // gets rid of the space after the bool
-
             System.out.println("where does "+x_or_o+" go? ");
             place = scanner.next();
 
@@ -140,6 +130,11 @@ public class Main {
 
             x.add(place,x_or_o);
             System.out.println(x.toString());
+
+            if (x.check(x_or_o)){
+                System.out.println(x_or_o+" Win!!");
+                break;
+            }
 
             if (x_or_o == "X")
                 x_or_o = "O";
