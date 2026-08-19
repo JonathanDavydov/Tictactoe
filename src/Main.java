@@ -7,10 +7,20 @@ class Ttt{
     // i want it too be a set because set's can remove duplicates
     private ArrayList<String> top = new ArrayList<>(3);
     private ArrayList<String> bot = new ArrayList<>(3);
+    private ArrayList<String> mid = new ArrayList<>(3);
+
     private ArrayList<String> pDia = new ArrayList<>(3);
     private ArrayList<String> nDia = new ArrayList<>(3);
-    private ArrayList<String> mid = new ArrayList<>(3);
+
+    private ArrayList<String> vtop = new ArrayList<>(3);
+    private ArrayList<String> vbot = new ArrayList<>(3);
+    private ArrayList<String> vmid = new ArrayList<>(3);
+
+
     private ArrayList<ArrayList<String>> grid = new ArrayList<>(3);
+
+
+
     static int filled_spcs =0; //idk why i have this
 
     public Ttt(){
@@ -19,8 +29,14 @@ class Ttt{
             top.add("empty\t");
             mid.add("empty\t");
             bot.add("empty\t");
+
             pDia.add("empty\t");
             nDia.add("empty\t");
+
+            vtop.add("empty\t");
+            vmid.add("empty\t");
+            vbot.add("empty\t");
+
         }
 
         grid.add(top);
@@ -54,9 +70,23 @@ class Ttt{
         pDia.set(1,mid.get(1));
         pDia.set(2,top.get(2));
 
+
+
         nDia.set(0,bot.get(0));
         nDia.set(1,mid.get(1));
         nDia.set(2,top.get(2));
+
+        vtop.set(0, top.get(2));
+        vtop.set(1, mid.get(2));
+        vtop.set(2, bot.get(2));
+
+        vmid.set(0,top.get(1));
+        vmid.set(1,mid.get(1));
+        vmid.set(2,bot.get(1));
+
+        vbot.set(0, top.get(0));
+        vbot.set(1, mid.get(0));
+        vbot.set(2, bot.get(0));
         return true;
 
     }
@@ -86,6 +116,14 @@ class Ttt{
 
     }
 
+    public String displayInfo() {
+        String ttt_str = toString();
+        ttt_str = ttt_str+"\r vTop:"+vtop.toString()+"vMid:"+vmid.toString()+"vBot:"+vbot.toString();
+
+        return ttt_str;
+
+    }
+
     public boolean check(String x_or_o){
         //horizontal checks
         x_or_o=x_or_o+"\t\t";
@@ -94,17 +132,19 @@ class Ttt{
         Set<String> bots = new HashSet<>(bot);
         Set<String> pDias = new HashSet<>(pDia);
         Set<String> nDias = new HashSet<>(nDia);
+
+        Set<String> vtops = new HashSet<>(vtop);
+        Set<String> vmids = new HashSet<>(vmid);
+        Set<String> vbots = new HashSet<>(vbot);
         //if any of the above have a duplicate that means that they are false
 
 
-        // i need to check vertically and i need check if the symbol exists
         boolean horizontal_checks = (tops.size() < 2 && tops.contains(x_or_o)) || (mids.size() < 2 && mids.contains(x_or_o)) || (bots.size() < 2 && bots.contains(x_or_o));
         boolean dia_checks =(pDias.size() < 2 && pDias.contains(x_or_o)) || (nDias.size() < 2 && nDias.contains(x_or_o));
+        boolean vertical_checks = (vtops.size() < 2 && vtops.contains(x_or_o)) || (vmids.size() < 2 && vmids.contains(x_or_o)) || (vbots.size() < 2 && vbots.contains(x_or_o));
 
-
-        if (horizontal_checks || dia_checks){
+        if (horizontal_checks||dia_checks||vertical_checks)
             return true;
-        }
 
         return false;
     }
@@ -113,34 +153,38 @@ class Ttt{
 }
 
 public class Main {
+
+    static void playGame(Ttt x){
+         String place;
+         String x_or_o = "X";
+         Scanner scanner = new Scanner(System.in);
+
+         System.out.println(x.toString());;
+
+         while(true){
+             System.out.println("where does "+x_or_o+" go? ");
+
+             place = scanner.next();
+             x.add(place,x_or_o);
+
+
+
+             System.out.println(x.toString());
+             if (x.check(x_or_o)){
+                 System.out.println(x_or_o+" Wins!!");
+                 break;
+             }
+
+//          ALTERNATOR <-----
+             if (x_or_o == "X")
+                 x_or_o = "O";
+             else
+                 x_or_o= "X";
+         }
+
+    }
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Ttt x = new Ttt();
-        String place;
-        String x_or_o = "X";
-
-
-        System.out.println(x.toString());;
-
-        while(true){
-            System.out.println("where does "+x_or_o+" go? ");
-            place = scanner.next();
-
-
-
-            x.add(place,x_or_o);
-            System.out.println(x.toString());
-
-            if (x.check(x_or_o)){
-                System.out.println(x_or_o+" Win!!");
-                break;
-            }
-
-            if (x_or_o == "X")
-                x_or_o = "O";
-            else
-                x_or_o= "X";
-        }
-
+        Ttt game = new Ttt();
+        playGame(game);
     }
 }
