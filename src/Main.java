@@ -16,6 +16,10 @@ class Ttt{
     private ArrayList<String> vbot = new ArrayList<>(3);
     private ArrayList<String> vmid = new ArrayList<>(3);
 
+    private Deque<String> stack = new ArrayDeque<>(); //stack
+
+
+
 
     private ArrayList<ArrayList<String>> grid = new ArrayList<>(3);
 
@@ -63,32 +67,54 @@ class Ttt{
         else{
             return false;
         }
-        //grid[row][column] = X_or_O+"\t\t";
-
-        grid.get(row).set(column,x_or_o+"\t\t");
-        pDia.set(0,bot.get(0));
-        pDia.set(1,mid.get(1));
-        pDia.set(2,top.get(2));
 
 
+        if (!grid.get(row).get(column).trim().equals("empty")){
+            return false;
+        }
+        else{
+            grid.get(row).set(column, x_or_o + "\t\t");
+        }
+        {
 
-        nDia.set(0,bot.get(0));
-        nDia.set(1,mid.get(1));
-        nDia.set(2,top.get(2));
+            pDia.set(0, bot.get(0));
+            pDia.set(1, mid.get(1));
+            pDia.set(2, top.get(2));
 
-        vtop.set(0, top.get(2));
-        vtop.set(1, mid.get(2));
-        vtop.set(2, bot.get(2));
 
-        vmid.set(0,top.get(1));
-        vmid.set(1,mid.get(1));
-        vmid.set(2,bot.get(1));
+            nDia.set(0, bot.get(0));
+            nDia.set(1, mid.get(1));
+            nDia.set(2, top.get(2));
 
-        vbot.set(0, top.get(0));
-        vbot.set(1, mid.get(0));
-        vbot.set(2, bot.get(0));
+            vtop.set(0, top.get(2));
+            vtop.set(1, mid.get(2));
+            vtop.set(2, bot.get(2));
+
+            vmid.set(0, top.get(1));
+            vmid.set(1, mid.get(1));
+            vmid.set(2, bot.get(1));
+
+            vbot.set(0, top.get(0));
+            vbot.set(1, mid.get(0));
+            vbot.set(2, bot.get(0));
+        } //reassignments
         return true;
 
+    }
+
+    public boolean remove(String place){
+        return add(place,"empty");
+    }
+
+    public boolean undo(){
+        return remove(getStack().pop());
+    }
+
+    public void addStack(String place){
+        stack.push(place);
+    }
+    public Deque<String> getStack(){
+        return stack;
     }
 
     @Override
@@ -118,7 +144,7 @@ class Ttt{
 
     public String displayInfo() {
         String ttt_str = toString();
-        ttt_str = ttt_str+"\r vTop:"+vtop.toString()+"vMid:"+vmid.toString()+"vBot:"+vbot.toString();
+        ttt_str = ttt_str+"vTop:"+vtop.toString()+"\nvMid:"+vmid.toString()+"\nvBot:"+vbot.toString()+"\n"+getStack().toString();
 
         return ttt_str;
 
@@ -165,7 +191,12 @@ public class Main {
              System.out.println("where does "+x_or_o+" go? ");
 
              place = scanner.next();
-             x.add(place,x_or_o);
+
+             if (x.add(place,x_or_o))
+                 x.addStack(place);
+             else
+                continue;
+
 
 
 
@@ -175,7 +206,6 @@ public class Main {
                  break;
              }
 
-//          ALTERNATOR <-----
              if (x_or_o == "X")
                  x_or_o = "O";
              else
@@ -183,8 +213,34 @@ public class Main {
          }
 
     }
+
+    static void test(Ttt game){
+        System.out.println(game.displayInfo());
+        System.out.println();
+
+        if (game.add("a1","x")){
+            game.addStack("a1");
+        }
+
+        if (game.add("a2","x")){
+            game.addStack("a2");
+        }
+
+        if (game.add("a3","x")){
+            game.addStack("a3");
+        }
+
+        System.out.println(game.getStack().peek());
+        game.undo();
+
+        System.out.println(game.displayInfo());
+    }
+
     public static void main(String[] args) {
         Ttt game = new Ttt();
         playGame(game);
+        //test(game);
+
+
     }
 }
